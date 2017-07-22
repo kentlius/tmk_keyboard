@@ -24,22 +24,52 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AC_SWEJ ACTION_MODS_KEY(MOD_LALT, KC_GRV)
 #define AC_AF4_ ACTION_MODS_KEY(MOD_LALT, KC_F4)
 
+enum keymap_layers{
+  L_BASE,
+  L_GAME_L,
+  L_GAME_R,
+  L_LOWER,
+  L_RAISE,
+  L_CURSOR,
+  L_ADJUST
+};
+
+enum function_codes {
+  LCTRL_ESC
+}
+
+#define LOWR ACTION_LAYER_MOMENTARY(L_LOWER)
+#define CRSR ACTION_LAYER_TAP_KEY(L_CURSOR, KC_SPC)
+#define CESC ACTION_FUNCTION(LCTRL_ESC, 0)
+#define OSFT ACTION_MODS_ONESHOT(MOD_LSFT)
+
+/*
+#define R01C01 KC_TAB
+#define R02C01 ESC_CTL
+#define R03C01 OSM_SFT
+#define R01C12 LT(L_ADJUST, KC_BSPC)
+#define R02C12 ENT_CTL
+#define R03C12 OSM_SFT
+#define BOTTOMROW      {XXXXXXX, XXXXXXX, KC_LGUI, KC_LALT, OSL_LWR, LCR_SPC, LCR_SPC, OSL_LWR, KC_RALT, KC_RGUI, XXXXXXX, XXXXXXX}
+#define BOTTOMROW_GAME {_______, _______, KC_LGUI, KC_LALT, GAME_R,  KC_SPC,  KC_LSFT, KC_KP_0, KC_PCMM, KC_PDOT, KC_PSLS, KC_NLCK}
+*/
+
 #ifdef KEYMAP_SECTION_ENABLE
 const action_t actionmaps[][UNIMAP_ROWS][UNIMAP_COLS] __attribute__ ((section (".keymap.keymaps"))) = {
 #else
 const action_t actionmaps[][UNIMAP_ROWS][UNIMAP_COLS] PROGMEM = {
 #endif
-    [0] = UNIMAP(
-              F13, F14, F15, F16, F17, F18, F19, F20, F21, F22, F23, F24,
-    ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,           PSCR,SLCK,PAUS,    VOLD,VOLU,MUTE,
-    TAB, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   LBRC,RBRC,JYEN,BSPC,     INS, HOME,PGUP,    NLCK,PSLS,PAST,PMNS,
-    TAB, QUOT,COMM,DOT, P,   Y,   F,   G,   C,   R,   L,   ENT, EQL,      BSLS,     DEL, END, PGDN,    P7,  P8,  P9,  PPLS,
-    CAPS,A,   O,   E,   U,   I,   D,   H,   T,   N,   S,   RGUI,     NUHS,ENT,                         P4,  P5,  P6,  PCMM,
-    LSFT,NUBS,SCLN,Q,   J,   K,   X,   B,   M,   W,   V,   Z,        RALT,RSFT,          UP,           P1,  P2,  P3,  PEQL,
-    LALT,LGUI,ESC_,LOWR,          SPFN,          RAIS,KANA,RALT,RGUI,APP, RCTL,     LEFT,DOWN,RGHT,    P0,       PDOT,PENT
+    [L_BASE] = UNIMAP(
+              NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,
+    NONE,     NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,          PSCR,SLCK,PAUS,    VOLD,VOLU,MUTE,
+    TAB, NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,RGUI,     INS, HOME,PGUP,    NLCK,PSLS,PAST,PMNS,
+    TAB, QUOT,COMM,DOT, P,   Y,   F,   G,   C,   R,   L,   BSPC,EQL,      NONE,     DEL, END, PGDN,    P7,  P8,  P9,  PPLS,
+    CRSR,A,   O,   E,   U,   I,   D,   H,   T,   N,   S,   ENT,      NUHS,ENT,                         P4,  P5,  P6,  PCMM,
+    LALT,NUBS,SCLN,Q,   J,   K,   X,   B,   M,   W,   V,   Z,        OSFT,RALT,          UP,           P1,  P2,  P3,  PEQL,
+    OSFT,LGUI,CESC,LOWR,          LGUI,          LOWR,CRSR,RALT,RGUI,APP, RCTL,     LEFT,DOWN,RGHT,    P0,       PDOT,PENT
     ),
 
-    [1] = UNIMAP(
+    [L_LOWER] = UNIMAP(
               TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
     TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
@@ -49,7 +79,7 @@ const action_t actionmaps[][UNIMAP_ROWS][UNIMAP_COLS] PROGMEM = {
     TRNS,TRNS,TRNS,TRNS,          TRNS,          TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,     TRNS,TRNS
     ),
 
-    [2] = UNIMAP(
+    [L_CURSOR] = UNIMAP(
               TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
     TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
