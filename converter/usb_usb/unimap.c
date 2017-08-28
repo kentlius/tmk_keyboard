@@ -17,13 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "unimap_trans.h"
 
-#define AC_ESC_ ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC)
-#define AC_LOWR ACTION_LAYER_MOMENTARY(1)
-#define AC_RAIS ACTION_LAYER_MODS(1, MOD_LSFT)
-#define AC_SPFN ACTION_LAYER_TAP_KEY(2, KC_SPC)
-#define AC_SWEJ ACTION_MODS_KEY(MOD_LALT, KC_GRV)
-#define AC_AF4_ ACTION_MODS_KEY(MOD_LALT, KC_F4)
-
 enum keymap_layers{
   L_BASE,
   L_GAME_L,
@@ -35,24 +28,18 @@ enum keymap_layers{
 };
 
 enum function_codes {
-  LCTRL_ESC
-}
+  ESC_CTL
+};
 
-#define LOWR ACTION_LAYER_MOMENTARY(L_LOWER)
-#define CRSR ACTION_LAYER_TAP_KEY(L_CURSOR, KC_SPC)
-#define CESC ACTION_FUNCTION(LCTRL_ESC, 0)
-#define OSFT ACTION_MODS_ONESHOT(MOD_LSFT)
-
-/*
-#define R01C01 KC_TAB
-#define R02C01 ESC_CTL
-#define R03C01 OSM_SFT
-#define R01C12 LT(L_ADJUST, KC_BSPC)
-#define R02C12 ENT_CTL
-#define R03C12 OSM_SFT
-#define BOTTOMROW      {XXXXXXX, XXXXXXX, KC_LGUI, KC_LALT, OSL_LWR, LCR_SPC, LCR_SPC, OSL_LWR, KC_RALT, KC_RGUI, XXXXXXX, XXXXXXX}
-#define BOTTOMROW_GAME {_______, _______, KC_LGUI, KC_LALT, GAME_R,  KC_SPC,  KC_LSFT, KC_KP_0, KC_PCMM, KC_PDOT, KC_PSLS, KC_NLCK}
-*/
+#define AC_NONE KC_NO
+#define AC_OSFT ACTION_MODS_ONESHOT(MOD_LSFT)
+#define AC_CESC ACTION_FUNCTION(ESC_CTL)
+#define AC_DVRK ACTION_DEFAULT_LAYER_SET(L_BASE)
+#define AC_LOWR ACTION_LAYER_MOMENTARY(L_LOWER)
+#define AC_GAME ACTION_DEFAULT_LAYER_SET(L_GAME_L)
+#define AC_GAMR ACTION_LAYER_MOMENTARY(L_GAME_R)
+#define AC_CRSR ACTION_LAYER_MOMENTARY(L_CURSOR)
+#define AC_ABSP ACTION_LAYER_TAP_KEY(L_ADJUST, KC_BSPC)
 
 #ifdef KEYMAP_SECTION_ENABLE
 const action_t actionmaps[][UNIMAP_ROWS][UNIMAP_COLS] __attribute__ ((section (".keymap.keymaps"))) = {
@@ -63,33 +50,103 @@ const action_t actionmaps[][UNIMAP_ROWS][UNIMAP_COLS] PROGMEM = {
               NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,
     NONE,     NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,          PSCR,SLCK,PAUS,    VOLD,VOLU,MUTE,
     TAB, NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,RGUI,     INS, HOME,PGUP,    NLCK,PSLS,PAST,PMNS,
-    TAB, QUOT,COMM,DOT, P,   Y,   F,   G,   C,   R,   L,   BSPC,EQL,      NONE,     DEL, END, PGDN,    P7,  P8,  P9,  PPLS,
-    CRSR,A,   O,   E,   U,   I,   D,   H,   T,   N,   S,   ENT,      NUHS,ENT,                         P4,  P5,  P6,  PCMM,
-    LALT,NUBS,SCLN,Q,   J,   K,   X,   B,   M,   W,   V,   Z,        OSFT,RALT,          UP,           P1,  P2,  P3,  PEQL,
-    OSFT,LGUI,CESC,LOWR,          LGUI,          LOWR,CRSR,RALT,RGUI,APP, RCTL,     LEFT,DOWN,RGHT,    P0,       PDOT,PENT
+    TAB, QUOT,COMM,DOT, P,   Y,   F,   G,   C,   R,   L,   ABSP,NONE,     NONE,     DEL, END, PGDN,    P7,  P8,  P9,  PPLS,
+    SPC ,A,   O,   E,   U,   I,   D,   H,   T,   N,   S,   ENT,      NONE,ENT,                         P4,  P5,  P6,  PCMM,
+    LALT,NONE,SCLN,Q,   J,   K,   X,   B,   M,   W,   V,   Z,        OSFT,RALT,          UP,           P1,  P2,  P3,  PEQL,
+    OSFT,NONE,CESC,LOWR,          LGUI,          CRSR,SPC ,NONE,NONE,NONE,NONE,     LEFT,DOWN,RGHT,    P0,       PDOT,PENT
     ),
 
     [L_LOWER] = UNIMAP(
               TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
     TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
-    TRNS,1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   TRNS,TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
-    TRNS,QUOT,COMM,DOT, SLSH,SCLN,GRV, MINS, EQL,LBRC,RBRC,BSLS,     TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
-    TRNS,TRNS,F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10,      TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
+    F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,QUOT,COMM,DOT, SCLN,GRV, MINS,SLSH, EQL,LBRC,RBRC,BSLS,     TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,1,   2,   3,   4,   5,   6,   7,   8,   9,   0,        TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,          TRNS,          TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,     TRNS,TRNS
+    ),
+
+    [L_GAME_L] = UNIMAP(
+              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+    TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,P7,  P8,  P9,  PSLS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,Q,   W,   E,   R,   T,   BSPC,P4,  P5,  P6,  PAST,TRNS,TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    SPC, A,   S,   D,   F,   G,   ENT, P1,  P2,  P3,  PMNS,TRNS,     TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
+    TRNS,NONE,Z,   X,   C,   V,   B,   ESC, P0,PCMM,PDOT,  PPLS,     TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
+    LSFT,TRNS,TRNS,GAMR,          TRNS,          TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,     TRNS,TRNS
+    ),
+
+    [L_GAME_R] = UNIMAP(
+              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+    TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,P,   O,   I,   U,   Y,   TRNS,PSCR,SLCK,PAUS,MUTE,TRNS,TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,SCLN,L,   K,   J,   H,   TRNS,INS, HOME,PGUP,VOLU,TRNS,     TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,SLSH,DOT, COMM,M,   N,   TRNS,DEL, END, PGDN,VOLD,     TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
     TRNS,TRNS,TRNS,TRNS,          TRNS,          TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,     TRNS,TRNS
     ),
 
     [L_CURSOR] = UNIMAP(
               TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
     TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
-    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
-    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,SWEJ,HOME,UP,  END, TRNS,TRNS,TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
-    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,BSPC,LEFT,DOWN,RGHT,DEL,TRNS,      TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
-    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,AF4_,TAB, ESC, ENT, TRNS,     TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,P7,  P8,  P9,  PSLS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,INS ,HOME,UP,  END, PGUP,INS, P4,  P5,  P6,  PAST,TRNS,TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,DEL ,LEFT,DOWN,RGHT,BSPC,DEL, P1,  P2,  P3,  PMNS,TRNS,     TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,ENT ,PSCR,SLCK,PAUS,PGDN,ESC, P0,PCMM,PDOT,  PPLS,     TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
     TRNS,TRNS,TRNS,TRNS,          TRNS,          TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,     TRNS,TRNS
     ),
+
+    [L_ADJUST] = UNIMAP(
+              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+    TRNS,     TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,DVRK,GAME,TRNS,TRNS,     TRNS,     TRNS,TRNS,TRNS,    TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,    TRNS,TRNS,                        TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,          TRNS,         TRNS,TRNS,TRNS,TRNS,
+    TRNS,TRNS,TRNS,TRNS,          TRNS,          TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS,TRNS,TRNS,    TRNS,     TRNS,TRNS
+    )
 };
 
-const action_t PROGMEM fn_actions[] = {
-};
+#define KEYEQ(keya, keyb)       ((keya).row == (keyb).row && (keya).col == (keyb).col)
+keyevent_t last_keyevent;
+bool did_tap_same_key = false;
+bool have_auto_reseale_key = false;
+uint16_t auto_release_keycode;
+
+void hook_matrix_change(keyevent_t event)
+{
+  did_tap_same_key = last_keyevent.pressed && !event.pressed &&
+    KEYEQ(last_keyevent.key, event.key);
+  last_keyevent = event;
+}
+
+void hook_keyboard_loop(void)
+{
+  if (have_auto_reseale_key)
+  {
+    unregister_code(auto_release_keycode);
+    have_auto_reseale_key = false;
+  }
+}
+
+void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
+{
+  switch (id)
+  {
+    case ESC_CTL:
+      if (record->event.pressed)
+      {
+        register_code(KC_LCTL);
+      } else {
+        unregister_code(KC_LCTL);
+        if (did_tap_same_key)
+        {
+          have_auto_reseale_key = true;
+          auto_release_keycode = KC_ESC;
+          register_code(auto_release_keycode);
+        }
+      }
+      break;
+  }
+}
 
